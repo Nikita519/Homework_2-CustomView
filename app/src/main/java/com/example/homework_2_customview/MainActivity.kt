@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.homework_2_customview.databinding.ActivityMainBinding
@@ -29,33 +31,42 @@ class MainActivity : AppCompatActivity(), SpinListener {
         binding.customView.wheel.setSpinListener(this)
 
         binding.resetButton.setOnClickListener {
-            binding.customView.textViewColor.visibility = View.GONE
+            binding.customView.customTextView.visibility = View.GONE
             binding.customView.imageView.visibility = View.GONE
         }
 
+        binding.customView.seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val newSize = progress.toFloat() / 100
+                binding.customView.wheel.setSize(newSize)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+        })
     }
 
     override fun onSpinComplete(color: Int) {
         when (color) {
             Color.RED -> {
-                binding.customView.textViewColor.text = "Красный"
-                binding.customView.textViewColor.setTextColor(color)
-                binding.customView.textViewColor.visibility = View.VISIBLE
+                binding.customView.customTextView.visibility = View.VISIBLE
+                binding.customView.customTextView.setText("Красный", color)
             }
             Color.YELLOW -> {
-                binding.customView.textViewColor.text = "Желтый"
-                binding.customView.textViewColor.setTextColor(color)
-                binding.customView.textViewColor.visibility = View.VISIBLE
+                binding.customView.customTextView.visibility = View.VISIBLE
+                binding.customView.customTextView.setText("Желтый", color)
             }
             Color.BLUE -> {
-                binding.customView.textViewColor.text = "Голубой"
-                binding.customView.textViewColor.setTextColor(color)
-                binding.customView.textViewColor.visibility = View.VISIBLE
+                binding.customView.customTextView.visibility = View.VISIBLE
+                binding.customView.customTextView.setText("Синий", color)
             }
             Color.rgb(105, 0, 198) -> {
-                binding.customView.textViewColor.text = "Фиолетовый"
-                binding.customView.textViewColor.setTextColor(color)
-                binding.customView.textViewColor.visibility = View.VISIBLE
+                binding.customView.customTextView.visibility = View.VISIBLE
+                binding.customView.customTextView.setText("Фиолетовый", color)
             }
             Color.rgb(255, 165, 0) -> {
                 Glide.with(binding.customView.imageView)
@@ -89,4 +100,6 @@ class MainActivity : AppCompatActivity(), SpinListener {
         val imageNumber = (Math.random() * images.size) - 1
         return images[imageNumber.toInt()]
     }
+
+
 }

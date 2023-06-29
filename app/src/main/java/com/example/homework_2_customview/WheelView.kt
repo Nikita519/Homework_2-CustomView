@@ -83,6 +83,12 @@ class WheelView(context: Context, attributeSet: AttributeSet?) :
         spinListener = listener
     }
 
+    fun setSize(newSize: Float) {
+        scaleX = newSize * 2
+        scaleY = newSize * 2
+        invalidate()
+    }
+
 
 
 }
